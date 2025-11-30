@@ -1,0 +1,61 @@
+{
+  "info": {
+    "_postman_id": "d13f79b4-5563-4f31-9e3e-b76b4f3d8291",
+    "name": "Task Manager API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "chatgpt"
+  },
+  "item": [
+    {
+      "name": "Create Task",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Test Task\",\n  \"description\": \"This is a task created via Postman\",\n  \"category\": \"Testing\",\n  \"assigned_to\": \"Bhavesh\",\n  \"due_date\": \"2025-11-30\",\n  \"created_by\": \"admin@gmail.com\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/create-task",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["create-task"]
+        }
+      }
+    },
+    {
+      "name": "Get Tasks by Employee",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://127.0.0.1:5000/tasks/Bhavesh",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["tasks", "Bhavesh"]
+        }
+      }
+    },
+    {
+      "name": "Get Employee List",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://127.0.0.1:5000/employees",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["employees"]
+        }
+      }
+    }
+  ]
+}
