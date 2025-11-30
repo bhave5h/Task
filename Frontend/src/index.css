@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  background-color: #000000;
+  background-color: #18181a;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   margin: 0;
@@ -21,3 +21,5 @@ body::-webkit-scrollbar {
 .card-bg {
   background-color: #27292b;
 }
+
+

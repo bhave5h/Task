@@ -17,10 +17,10 @@ const Login = () => {
     // Temp login logic (no backend)
     if (email === "admin@gmail.com") {
       navigate("/admin");
-    } else if (email === "emp1@gmail.com") {
+    } else if (email === "bhavesh@gmail.com") {
       navigate("/employee");
     } else {
-      alert("Invalid email for demo login!");
+      alert("Invalid email for demo login, Check Out Readme!");
     }
   };
 
@@ -81,7 +81,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="bg-gray-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:bg-gray-600 transition"> Login 
+            className="bg-gray-500 text-black font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-gray-600 transition"> Login 
           </button>
     </form>
       </div>

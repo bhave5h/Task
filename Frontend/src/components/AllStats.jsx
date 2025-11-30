@@ -1,15 +1,5 @@
 import React from 'react'
-import { 
-  FiUser, 
-  FiCalendar, 
-  FiTag, 
-  FiFileText, 
-  FiUsers, 
-  FiCheckCircle, 
-  FiXCircle, 
-  FiActivity, 
-  FiPlusCircle 
-} from 'react-icons/fi';
+import { FiActivity } from 'react-icons/fi';
 
 const employeeData = [
   { id: 1, name: 'Alex Johnson', avatar: 'https://i.pravatar.cc/150?img=11', new: 5, completed: 12, failed: 1, active: 4 },
@@ -26,7 +16,7 @@ const EmpStats = () => {
              <h2 className="text-xl font-bold text-white mb-1">Team Performance</h2>
              <p className="text-dark-muted text-sm">Overview of employee task status.</p>
         </div>
-        <div className="p-3 bg-blue-500/20 rounded-xl text-blue-400">
+        <div className="p-3 bg-blue-500/20 rounded-xl text-indigo-400">
             <FiActivity size={24} />
         </div>
       </div>
@@ -68,8 +58,8 @@ const EmpStats = () => {
           </tbody>
         </table>
       </div>
-       <div className="mt-6 text-center text-sm text-dark-muted cursor-pointer hover:text-accent-purple transition-colors">
-            View all employees -
+       <div className="mt-6 text-center text-sm font-semibold">
+            View all employees 
        </div>
     </div>
   )

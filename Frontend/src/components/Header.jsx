@@ -1,5 +1,7 @@
 import React from "react";
 import Dither from "./Dither";
+import { useNavigate } from "react-router-dom";
+
 
 const Header = ({ username }) => {
   return (
@@ -28,10 +30,11 @@ const Header = ({ username }) => {
           />
         </div>
 
-        <button className="flex items-center gap-2 bg-red-400 text-lg text-black px-4 py-2 rounded-xl font-bold">
+        <button
+          onClick={() => window.location.href = "/"}
+          className="flex items-center gap-2 bg-red-400 text-lg text-black px-4 py-2 rounded-xl font-bold">
           <span className="text-sm md:text-base">Log Out</span>
         </button>
-
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 
 import {
   FiUser,
@@ -9,6 +9,58 @@ import {
 } from 'react-icons/fi';
 
 const TaskCard = () => {
+
+  const [employees, setEmployees] = useState([]);
+
+useEffect(() => {
+  fetch("http://127.0.0.1:5000/employees")
+    .then(res => res.json())
+    .then(data => setEmployees(data))
+    .catch(err => console.log(err));
+}, []);
+
+  const [title, setTitle] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [assignedTo, setAssignedTo] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      title: title,
+      description: description,
+      category: category,
+      assigned_to: assignedTo,
+      due_date: dueDate,
+      created_by: "admin@gmail.com" // static for now
+    };
+
+    try {
+      const res = await fetch("http://127.0.0.1:5000/create-task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      alert(data.message);
+
+      // clearing form
+      setTitle("");
+      setDueDate("");
+      setAssignedTo("");
+      setCategory("");
+      setDescription("");
+
+    } catch (err) {
+      alert("Something went wrong!");
+      console.log(err);
+    }
+  };
+
+
   return (
     <div className="card-bg p-6 md:p-8 rounded-[2rem] shadow-xl shadow-black/20 border border-gray-800/30 h-full">
       
@@ -23,7 +75,7 @@ const TaskCard = () => {
       </div>
 
       
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           <div className="mb-4">
@@ -31,10 +83,16 @@ const TaskCard = () => {
               Task Title
             </label>
             <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-dark-muted pointer-events-none">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-dark-muted pointer-events-none">
                 <FiFileText />
-                </div>
-              <input type="text" placeholder="e.g., Redesign Homepage" className="w-full pl-10 pr-4 py-3 rounded-xl text-white bg-gray-500"/>
+              </div>
+              <input 
+                type="text" 
+                placeholder="e.g., Redesign Homepage" 
+                className="w-full pl-10 pr-4 py-3 rounded-xl text-white bg-gray-500"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
           </div>
 
@@ -43,36 +101,43 @@ const TaskCard = () => {
               Due Date
             </label>
             <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-dark-muted pointer-events-none">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-dark-muted pointer-events-none">
                 <FiCalendar />
-                </div>
-
-              <input type="date" className="w-full pl-10 pr-4 py-3 rounded-xl text-white bg-gray-500 "/>
+              </div>
+              <input 
+                type="date" 
+                className="w-full pl-10 pr-4 py-3 rounded-xl text-white bg-gray-500"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+              />
             </div>
           </div>
-
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           <div className="mb-4">
-            <label className="block text-dark-muted text-sm font-medium mb-2">
-              Assign To
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-dark-muted pointer-events-none">
-                <FiUser />
-              </div>
-              <input
-                type="text"
-                placeholder="Select Employee"
-                className="w-full pl-10 pr-4 py-3 rounded-xl text-white bg-gray-500"
-              />
+            <label className="block text-dark-muted text-sm font-medium mb-2"> Assign To </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-dark-muted pointer-events-none">
+              <FiUser />
             </div>
+            <select
+              className="w-full pl-10 pr-4 py-3 rounded-xl text-white bg-gray-500"
+              value={assignedTo}
+              onChange={(e) => setAssignedTo(e.target.value)}
+            >
+              <option value="">Select Employee</option>
+              {employees.map((emp, idx) => (
+                <option key={idx} value={emp.username}>
+                  {emp.username}
+                </option>
+              ))}
+            </select>
           </div>
+        </div>
 
-          {/* Category */}
-          <div className="mb-4">
+        <div className="mb-4">
             <label className="block text-dark-muted text-sm font-medium mb-2">
               Category
             </label>
@@ -84,10 +149,11 @@ const TaskCard = () => {
                 type="text"
                 placeholder="e.g., Design, Development"
                 className="w-full pl-10 pr-4 py-3 rounded-xl text-white bg-gray-500"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               />
             </div>
           </div>
-
         </div>
 
         <div className="mb-4">
@@ -97,11 +163,13 @@ const TaskCard = () => {
           <textarea
             rows="4"
             placeholder="Detailed task instructions..."
-            className="w-full pl-4 pr-4 py-3 bg-dark-input border border-gray-800/50 rounded-xl text-white bg-gray-500"
+            className="w-full pl-4 pr-4 py-3 bg-gray-500 text-white rounded-xl"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
 
-        <button className=" mt-4 text-white font-semibold py-3 px-6 rounded-xl shadow-lg  bg-gray-500">
+        <button className="mt-4 text-white font-semibold py-3 px-6 rounded-xl shadow-lg bg-gray-500">
           Create Task
         </button>
 
